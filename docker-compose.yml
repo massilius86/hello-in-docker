@@ -1,0 +1,26 @@
+# 'docker-compose.yml' file to control how to run the container
+# that will be built based upon our Dockerfile image.
+
+
+version: '3.8'  # The most recent version of Docker Compose
+
+# Specify which services (or containers) we want to have running within our Docker host.
+# It’s possible to have multiple services running, but for now we just have one for web
+services:
+  web: 
+    # Specify how to build the container by saying,
+    # Look in the current directory . for the Dockerfile.
+    build: .
+    # Within the container run the command to start up the local server.
+    # The volumes mount automatically syncs the Docker filesystem with
+    # our local computer’s filesystem. This means that we don’t have to
+    # rebuild the image each time we change a single file!
+    command: python3 /django-for-profs/manage.py runserver 0.0.0.0:8000
+    
+    volumes:
+    # Lastly specify the ports to expose within Docker which will be 8000,
+    # which is the Django default.
+      - .:/code
+
+    ports: 
+      - 8000:8000
